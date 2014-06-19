@@ -1,6 +1,26 @@
 # NGINX
 - name: be sure nginx is installed
   apt: state=present pkg=nginx
+
+- name: ssl-certs group
+  group: name=ssl-cert state=present
+- name: be sure nginx user is in ssl-cert
+  user: name=nginx groups=www-data,ssl-cert
+- name: be sure ssl certs dir exists
+  file: path=/etc/ssl/certs mode=755 state=directory owner=root
+- name: be sure ssl private dir exists
+  file: path=/etc/ssl/private mode=700 state=directory owner=root
+- name: copy the certificate
+  copy: src=ssl/certs/gocodo.com.chained.crt dest=/etc/ssl/certs/ mode=644 group=ssl-cert
+  notify: restart nginx
+- name: copy the key
+  copy: src=ssl/private/gocodo.com.key dest=/etc/ssl/private/ mode=640 group=ssl-cert
+  register: copied_key
+- name: strip ssl keys
+  command: openssl rsa -in /etc/ssl/private/gocodo.com.key -out /etc/ssl/private/gocodo.com.stripped.key -passin pass:{{ssl_passphrase}} creates=/etc/ssl/private.gocodo.com.stripped.key
+  when: copied_key|changed
+  notify: restart nginx
+
 - name: be sure nginx is configured
   copy: src=nginx.conf dest=/etc/nginx/nginx.conf owner=root group=root mode=644
   notify:
