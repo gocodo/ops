@@ -1,0 +1,33 @@
+server {
+  listen 80;
+  server_name www.gocodo.com
+  listen [::]:80 default_server ipv6only=on;
+
+  return 301 http://gocodo.com$request_uri;
+}
+
+server {
+  listen 80;
+  server_name gocodo.com
+  listen [::]:80 default_server ipv6only=on;
+
+  root /home/ubuntu/gocodo/public;
+  index index.html index.htm;
+
+  # Make site accessible from http://localhost/
+  server_name localhost;
+
+  location / {
+    error_page 404 /404.html;
+    
+    # First attempt to serve request as file, then fall to 404
+    try_files $uri $uri/ $uri.html $uri/index.html =404;
+  }
+
+  location /docs/epic-client/ {
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded_For $proxy_add_x_forwarded_for;
+    
+    proxy_pass http://epic-mychart-client.readthedocs.org/;
+  }
+}
