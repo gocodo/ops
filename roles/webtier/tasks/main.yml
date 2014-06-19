@@ -1,0 +1,11 @@
+# NGINX
+- name: be sure nginx is installed
+  apt: state=present pkg=nginx
+- name: be sure nginx is configured
+  copy: src=nginx.conf dest=/etc/nginx/nginx.conf owner=root group=root mode=644
+  notify:
+    - restart nginx
+- name: be sure nginx default site is configured
+  copy: src=nginx_default_site dest=/etc/nginx/sites-available/default
+  notify:
+    - restart nginx

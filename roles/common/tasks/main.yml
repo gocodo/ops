@@ -1,0 +1,7 @@
+---
+- name: update packages
+  apt: update_cache=yes upgrade=yes
+- name: ensure common packages installed
+  apt: state=present pkg={{item}}
+  with_items:
+    - git

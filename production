@@ -1,0 +1,5 @@
+[us-east-1-webservers]
+www-01.gocodo.com
+
+[webservers:children]
+us-east-1-webservers
