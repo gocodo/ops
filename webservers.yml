@@ -6,3 +6,7 @@
   roles:
     - common
     - webtier
+  vars_prompt:
+    - name: ssl_passphrase
+      prompt: "Enter SSL Certificate Passphrase"
+      private: false

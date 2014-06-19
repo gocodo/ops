@@ -1,21 +1,33 @@
 server {
   listen 80;
   server_name www.gocodo.com
+  server_name gocodo.com
   listen [::]:80 default_server ipv6only=on;
 
-  return 301 http://gocodo.com$request_uri;
+  return 301 https://gocodo.com$request_uri;
 }
 
 server {
-  listen 80;
+  listen 443;
+  server_name www.gocodo.com
+  listen [::]:443 default_server ipv6only=on;
+  
+  ssl_certificate /etc/ssl/certs/gocodo.com.chained.crt;
+  ssl_certificate_key /etc/ssl/private/gocodo.com.stripped.key;
+
+  return 301 https://gocodo.com$request_uri;
+}
+
+server {
+  listen 443 ssl;
   server_name gocodo.com
   listen [::]:80 default_server ipv6only=on;
 
   root /home/ubuntu/gocodo/public;
   index index.html index.htm;
 
-  # Make site accessible from http://localhost/
-  server_name localhost;
+  ssl_certificate /etc/ssl/certs/gocodo.com.chained.crt;
+  ssl_certificate_key /etc/ssl/private/gocodo.com.stripped.key;
 
   location / {
     error_page 404 /404.html;
