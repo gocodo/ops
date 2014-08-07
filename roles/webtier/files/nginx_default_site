@@ -36,10 +36,11 @@ server {
     try_files $uri $uri/ $uri.html $uri/index.html =404;
   }
 
-  location /docs/epic-client/ {
+  location /docs/yourchart/ {
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded_For $proxy_add_x_forwarded_for;
     
-    proxy_pass http://epic-mychart-client.readthedocs.org/;
+    proxy_pass http://gocodo-yourchart.readthedocs.org/;
+    proxy_redirect / /docs/yourchart/;
   }
 }
