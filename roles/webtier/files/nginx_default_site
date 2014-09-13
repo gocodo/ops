@@ -42,5 +42,6 @@ server {
     
     proxy_pass http://gocodo-yourchart.readthedocs.org/;
     proxy_redirect / /docs/yourchart/;
+    proxy_redirect http://gocodo-yourchart.readthedocs.org/ /docs/yourchart/;
   }
 }
