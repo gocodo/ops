@@ -3,3 +3,18 @@ www-01.gocodo.com
 
 [webservers:children]
 us-east-1-webservers
+
+[us-east-1-searchers]
+search-01.gocodo.com
+search-02.gocodo.com
+search-03.gocodo.com
+
+[searchers:children]
+us-east-1-searchers
+
+[us-east-1-monitors]
+#monitor-01.gocodo.com
+54.172.211.151
+
+[monitors:children]
+us-east-1-monitors

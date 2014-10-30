@@ -1,6 +1,8 @@
 ---
 - name: update packages
   apt: update_cache=yes upgrade=yes
+- name: set hostname
+  hostname: name={{inventory_hostname}}
 - name: ensure common packages installed
   apt: state=present pkg={{item}}
   with_items:
