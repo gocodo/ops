@@ -1,0 +1,4 @@
+- name: Download Kibana
+  get_url: url=https://download.elasticsearch.org/kibana/kibana/kibana-4.0.0-BETA1.1.tar.gz dest=~/kibana-4.0.0-BETA1.1.tar.gz
+- name: Extract Kibana
+  unarchive: src=~/kibana-4.0.0-BETA1.1.tar.gz dest=/root/ copy=no

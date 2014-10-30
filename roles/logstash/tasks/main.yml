@@ -1,0 +1,8 @@
+- name: Download LogStash
+  get_url: url=https://download.elasticsearch.org/logstash/logstash/packages/debian/logstash_1.4.2-1-2c0f5a1_all.deb dest=~/logstash_1.4.2-1-2c0f5a1_all.deb
+- name: Install LogStash
+  shell: dpkg -i ~/logstash_1.4.2-1-2c0f5a1_all.deb
+- name: Configure LogStash
+  copy: src=10-syslog.conf dest=/etc/logstash/conf.d/10-syslog.conf
+- name: Enable LogStash at startup
+  service: name=logstash enabled=yes state=started

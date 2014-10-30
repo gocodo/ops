@@ -1,0 +1,12 @@
+- name: Install OpenJDK
+  apt: state=present pkg=openjdk-7-jre-headless
+- name: Download ElasticSearch
+  get_url: url=https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.0.Beta1.deb dest=~/elasticsearch-1.4.0.beta1.deb
+- name: Install ElasticSearch
+  shell: dpkg -i ~/elasticsearch-1.4.0.beta1.deb
+- name: Configure ElasticSearch
+  template: src=elasticsearch.yml dest=/etc/elasticsearch/elasticsearch.yml
+- name: Enable ElasticSearch at startup
+  service: name=elasticsearch enabled=yes state=started
+- name: Install Marvel to monitor ElasticSearch
+  shell: /usr/share/elasticsearch/bin/plugin -i elasticsearch/marvel/latest
